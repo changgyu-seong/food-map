@@ -1,11 +1,184 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hello</title>
+    <title>Food Map</title>
+    <style>
+        :root {
+            --bg-top: #120312;
+            --bg-bottom: #2d081f;
+            --gold: #f5d46b;
+            --gold-deep: #c99318;
+            --red: #a50f2d;
+            --red-bright: #dd1743;
+            --cream: #fff4d6;
+            --panel: rgba(25, 8, 28, 0.84);
+            --panel-border: rgba(245, 212, 107, 0.28);
+            --muted: #d7c7a0;
+            --shadow: 0 28px 80px rgba(0, 0, 0, 0.45);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            color: var(--cream);
+            font-family: Georgia, "Times New Roman", serif;
+            background:
+                radial-gradient(circle at 20% 15%, rgba(245, 212, 107, 0.12), transparent 18%),
+                radial-gradient(circle at 80% 18%, rgba(221, 23, 67, 0.14), transparent 20%),
+                radial-gradient(circle at 50% 85%, rgba(245, 212, 107, 0.1), transparent 24%),
+                linear-gradient(180deg, var(--bg-top), var(--bg-bottom));
+            overflow: hidden;
+        }
+
+        body::before,
+        body::after {
+            content: "";
+            position: fixed;
+            inset: auto;
+            width: 320px;
+            height: 320px;
+            border-radius: 50%;
+            filter: blur(70px);
+            opacity: 0.32;
+            pointer-events: none;
+        }
+
+        body::before {
+            top: -40px;
+            left: -80px;
+            background: rgba(221, 23, 67, 0.35);
+        }
+
+        body::after {
+            right: -80px;
+            bottom: -60px;
+            background: rgba(245, 212, 107, 0.24);
+        }
+
+        .hero {
+            position: relative;
+            width: min(840px, 100%);
+            padding: 64px 40px;
+            border: 1px solid var(--panel-border);
+            border-radius: 36px;
+            background:
+                linear-gradient(180deg, rgba(47, 8, 30, 0.92), rgba(18, 3, 18, 0.96));
+            box-shadow: var(--shadow);
+            text-align: center;
+            backdrop-filter: blur(14px);
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            inset: 14px;
+            border-radius: 28px;
+            border: 1px solid rgba(245, 212, 107, 0.14);
+            pointer-events: none;
+        }
+
+        .eyebrow {
+            margin: 0 0 12px;
+            letter-spacing: 0.3em;
+            font-size: 0.76rem;
+            font-weight: 700;
+            color: var(--gold);
+        }
+
+        h1 {
+            margin: 0;
+            font-size: clamp(3.2rem, 9vw, 6.4rem);
+            line-height: 0.9;
+            letter-spacing: 0.04em;
+            color: var(--gold);
+            text-shadow:
+                0 0 10px rgba(245, 212, 107, 0.24),
+                0 0 26px rgba(245, 212, 107, 0.18);
+        }
+
+        .subheadline {
+            margin: 18px 0 0;
+            font-size: clamp(1rem, 2.2vw, 1.35rem);
+            letter-spacing: 0.22em;
+            color: #ffdb86;
+        }
+
+        .lead {
+            margin: 20px auto 0;
+            max-width: 620px;
+            font-size: 1.08rem;
+            line-height: 1.8;
+            color: var(--muted);
+        }
+
+        .chips {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .chip {
+            padding: 10px 16px;
+            border-radius: 999px;
+            border: 1px solid rgba(245, 212, 107, 0.16);
+            background: rgba(255, 255, 255, 0.04);
+            color: #ffe5aa;
+            font-size: 0.9rem;
+        }
+
+        .cta {
+            display: inline-block;
+            margin-top: 34px;
+            padding: 16px 28px;
+            border-radius: 999px;
+            background: linear-gradient(180deg, var(--red-bright), var(--red));
+            color: #fff8ee;
+            text-decoration: none;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            border: 1px solid rgba(255, 222, 168, 0.14);
+            box-shadow:
+                0 10px 24px rgba(165, 15, 45, 0.34),
+                inset 0 1px 0 rgba(255, 255, 255, 0.16);
+            transition: transform 0.18s ease, filter 0.18s ease;
+        }
+
+        .cta:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.08);
+        }
+
+        @media (max-width: 720px) {
+            .hero {
+                padding: 48px 24px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>HELLO WORLD</h1>
+    <main class="hero">
+        <p class="eyebrow">FOOD MAP CASINO</p>
+        <h1>HELLO WORLD</h1>
+        <p class="subheadline">SPIN FOR YOUR NEXT MEAL</p>
+        <p class="lead">엑셀 파일을 올리고 슬롯을 돌리면 `서현` 시트에서 오늘 갈 식당이 카지노 머신처럼 화려하게 멈춥니다.</p>
+        <div class="chips">
+            <span class="chip">Random Pick</span>
+            <span class="chip">Slot Animation</span>
+            <span class="chip">Seohyeon Sheet</span>
+        </div>
+        <a class="cta" href="/select">카지노 입장</a>
+    </main>
 </body>
 </html>
