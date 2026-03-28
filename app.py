@@ -9,10 +9,21 @@ TARGET_SHEET_NAME = "서현"
 HEADER_KEYWORDS = ("식당", "가게", "음식점", "상호", "이름", "매장", "업체")
 
 
-def extract_restaurants(sheet):
-    rows = list(sheet.iter_rows(values_only=True))
+def choose_random_restaurant(file_storage):
+    if file_storage is None or not file_storage.filename:
+        raise FileNotFoundError("업로드할 .xlsx 파일을 선택해 주세요.")
+
+    if not file_storage.filename.lower().endswith(".xlsx"):
+        raise ValueError(".xlsx 파일만 업로드할 수 있습니다.")
+
+    workbook = load_workbook(file_storage.stream, data_only=True)
+
+    if TARGET_SHEET_NAME not in workbook.sheetnames:
+        raise KeyError(f"'{TARGET_SHEET_NAME}' 시트를 찾을 수 없습니다.")
+
+    rows = list(workbook[TARGET_SHEET_NAME].iter_rows(values_only=True))
     if not rows:
-        return []
+        raise ValueError("선택할 수 있는 식당 데이터가 없습니다.")
 
     header_row = rows[0]
     restaurant_col_index = None
@@ -36,22 +47,6 @@ def extract_restaurants(sheet):
             if name and name not in HEADER_KEYWORDS:
                 restaurants.append(name)
 
-    return restaurants
-
-
-def choose_random_restaurant(file_storage):
-    if file_storage is None or not file_storage.filename:
-        raise FileNotFoundError("업로드할 .xlsx 파일을 선택해 주세요.")
-
-    if not file_storage.filename.lower().endswith(".xlsx"):
-        raise ValueError(".xlsx 파일만 업로드할 수 있습니다.")
-
-    workbook = load_workbook(file_storage.stream, data_only=True)
-
-    if TARGET_SHEET_NAME not in workbook.sheetnames:
-        raise KeyError(f"'{TARGET_SHEET_NAME}' 시트를 찾을 수 없습니다.")
-
-    restaurants = extract_restaurants(workbook[TARGET_SHEET_NAME])
     if not restaurants:
         raise ValueError("선택할 수 있는 식당 데이터가 없습니다.")
 
